@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Face Recognition App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class = "container">
+    <div class = "starter-template">
+        <h1>Face Recognition App</h1>
+        <p class = "lead"> Upload an image to see recognized character faces from LOTR</p>
+        <p> Face recognition using <a href="https://www.cv-foundation.org/openaccess/content_cvpr_2015/app/1A_089.pdf" target="blank"> FaceNet Pytorch Model </a> | Powered by Python, Flask, OpenCV, Caffe, Pytorch </p>
+        <p> Face detection using <a href="https://arxiv.org/pdf/1512.02325.pdf" target="blank"> Resnet10 SSD Caffe Model </a> | Powered by Python, Flask, OpenCV, Caffe </p>
+        <p> Image size limit: 2 MB </p>
+        <p> By Fatih C. Akyon - November, 2019 </p>
+    </div>
+</div>
+
+<header class="navbar">
+    <form action="/upload" method="post" enctype="multipart/form-data" >
+        <div align="center">
+            <label class="btn btn-default btn-file">
+                Browse <input type="file" name="image" style="display: none;">
+            </label>
+            <input type="submit" value="Upload & Detect" class="btn btn-primary">
+        </div>
+    </form>
+</header>
+
+<div class="text-center">
+    {% if init %}
+        {% if face_recognized %}
+            <div class="alert alert-success" style="margin-top:18px;">
+                <strong>Yes!</strong> {{ num_faces }} face(s) detected!
+            </div>
+            {% if image_to_show %}
+                <div>
+                    <img src="{{ image_to_show }}" style="width:600px;">
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-danger" style="margin-top:18px;">
+                <strong>Nope!</strong> No face detected
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+</body>
+</html>
