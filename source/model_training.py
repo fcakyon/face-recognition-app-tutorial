@@ -12,7 +12,8 @@ from sklearn.svm import SVC
 
 from sklearn.naive_bayes import GaussianNB
 
-def create_mlp_model(optimizer='adam',neuron_number=50,lr=0.001,class_number=5):
+def create_mlp_model(optimizer='adam', neuron_number=50, lr=0.001, class_number=5):
+    # Build function for keras/tensorflow based multi layer perceptron implementation
     model = Sequential()
     model.add(Dense(neuron_number, input_dim=128, activation='relu'))
     model.add(Dense(neuron_number, activation='relu'))
@@ -40,6 +41,7 @@ def train_mlp_model(embeddings_path = "", classifier_model_path = "", label_enco
     embedding_mtx = np.zeros([len(data["embeddings"]),len(data["embeddings"][0])])
     for ind in range(1,len(data["embeddings"])):
         embedding_mtx[ind,:] = data["embeddings"][ind]
+        
     # Train the model used to accept the 128-d embeddings of the face and
     # then produce the actual face recognition
     print("[INFO] training model...")
@@ -50,7 +52,9 @@ def train_mlp_model(embeddings_path = "", classifier_model_path = "", label_enco
                                  neuron_number = 32,
                                  lr = 1e-3,
                                  class_number = class_number)
-    recognizer.fit(embedding_mtx, labels)
+    
+    recognizer.fit(embedding_mtx, 
+                   labels)
     
     print("[INFO] saving model...")
     # Write the actual face recognition model to disk as pickle

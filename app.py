@@ -20,8 +20,8 @@ def detect():
     image = read_image(file)
     
     # Recognize faces
-    classifier_model_path = "models" + os.sep + "lotr_mlp_recognizer.pickle"
-    label_encoder_path = "models" + os.sep + "lotr_mlp_le.pickle"
+    classifier_model_path = "models" + os.sep + "lotr_mlp_10c_recognizer.pickle"
+    label_encoder_path = "models" + os.sep + "lotr_mlp_10c_labelencoder.pickle"
     faces = recognize_faces(image, classifier_model_path, label_encoder_path)
 
     return jsonify(recognitions = faces)
@@ -34,8 +34,8 @@ def upload():
     image = read_image(file)
     
     # Recognize faces
-    classifier_model_path = "models" + os.sep + "lotr_mlp_recognizer.pickle"
-    label_encoder_path = "models" + os.sep + "lotr_mlp_le.pickle"
+    classifier_model_path = "models" + os.sep + "lotr_mlp_10c_recognizer.pickle"
+    label_encoder_path = "models" + os.sep + "lotr_mlp_10c_labelencoder.pickle"
     faces = recognize_faces(image, classifier_model_path, label_encoder_path)
     
     # Draw detection rects

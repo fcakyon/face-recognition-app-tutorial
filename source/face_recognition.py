@@ -122,14 +122,14 @@ def recognize_faces(image, classifier_model_path, label_encoder_path):
                 continue
             
             # Construct a blob for the face ROI, then pass the blob
-    		# through our face embedding model to obtain the 128-d
-    		# quantification of the face
+            # through our face embedding model to obtain the 128-d
+            # quantification of the face
             face_blob = cv2.dnn.blobFromImage(face, 1.0 / 255, (96, 96),
                  (0, 0, 0), swapRB=True, crop=False)
             embedder.setInput(face_blob)
             vec = embedder.forward()
     
-    		# Perform classification to recognize the face
+            # Perform classification to recognize the face
             preds = recognizer.predict_proba(vec)[0]
             j = np.argmax(preds)
             # Get recognition confidence
@@ -149,7 +149,5 @@ def recognize_faces(image, classifier_model_path, label_encoder_path):
             face_dict['name'] = name
             faces_list.append(face_dict)
             
-    # Clear keras memory
-    K.clear_session()
     # Return the face image area, the face rectangle, and face name
     return faces_list
