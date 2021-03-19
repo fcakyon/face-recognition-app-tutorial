@@ -5,6 +5,8 @@ Live demo: https://face-recognition-api-flask.herokuapp.com
 
 [Tutorial notebook](/tutorial/tutorial.ipynb) | [Tutorial presentation](/presentation/FaceRecognitionWebAppTutorial.pdf)
 
+Refer to [tf2 branch](https://github.com/fcakyon/face-recognition-app-tutorial/tree/tf2) for tensorflow v2 support.
+
 ![DemoScreen](/images/webappscreen.jpg)
 
 # App Usage
