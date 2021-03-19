@@ -14,6 +14,7 @@ Refer to [tf2 branch](https://github.com/fcakyon/face-recognition-app-tutorial/t
 Run face detection app from [face-detection-app-tutorial repo](https://github.com/fcakyon/face-detection-app-tutorial):
 
 ```console
+git clone https://github.com/fcakyon/face-detection-app-tutorial.git
 cd face-detection-app-tutorial
 python app.py
 ```
@@ -21,6 +22,7 @@ python app.py
 Then run face recognition app from this repo:
 
 ```console
+git clone https://github.com/fcakyon/face-recognition-app-tutorial.git
 cd face-recognition-app-tutorial
 python app.py
 ```
