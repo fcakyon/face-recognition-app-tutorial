@@ -3,7 +3,6 @@ import cv2
 import pickle
 import requests
 import numpy as np
-from keras import backend as K
 from imutils import paths
 
 def detect_faces(image):
@@ -130,10 +129,13 @@ def recognize_faces(image, classifier_model_path, label_encoder_path):
             vec = embedder.forward()
     
             # Perform classification to recognize the face
-            preds = recognizer.predict_proba(vec)[0]
+            preds = recognizer.predict_proba(vec)
             j = np.argmax(preds)
             # Get recognition confidence
-            recognition_confidence = preds[j]
+            try:
+                recognition_confidence = preds[j]
+            except:
+                recognition_confidence = preds[0][j]
             # Convert it to a native python variable (float)
             recognition_confidence = recognition_confidence.item()
             # Get recognition class name

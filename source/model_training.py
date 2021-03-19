@@ -3,10 +3,10 @@ from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import pickle
 
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasClassifier
-from keras.optimizers import Adam
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from scikeras.wrappers import KerasClassifier
+from tensorflow.keras.optimizers import Adam
 
 from sklearn.svm import SVC
 
@@ -15,7 +15,8 @@ from sklearn.naive_bayes import GaussianNB
 def create_mlp_model(optimizer='adam', neuron_number=50, lr=0.001, class_number=5):
     # Build function for keras/tensorflow based multi layer perceptron implementation
     model = Sequential()
-    model.add(Dense(neuron_number, input_dim=128, activation='relu'))
+    model.add(Input(shape=(128,)))
+    model.add(Dense(neuron_number, activation='relu'))
     model.add(Dense(neuron_number, activation='relu'))
     model.add(Dense(class_number, activation='softmax'))
     optimizer = Adam(lr=lr)
@@ -45,13 +46,11 @@ def train_mlp_model(embeddings_path = "", classifier_model_path = "", label_enco
     # Train the model used to accept the 128-d embeddings of the face and
     # then produce the actual face recognition
     print("[INFO] training model...")
-    recognizer = KerasClassifier(build_fn=create_mlp_model, 
-                                 epochs=450, 
+    mlp_model = create_mlp_model(optimizer='adam', neuron_number=32, lr=1e-3, class_number=class_number)
+    recognizer = KerasClassifier(model=mlp_model, 
+                                 epochs=200, 
                                  batch_size=64, 
-                                 verbose=1,
-                                 neuron_number = 32,
-                                 lr = 1e-3,
-                                 class_number = class_number)
+                                 verbose=1)
     
     recognizer.fit(embedding_mtx, 
                    labels)
