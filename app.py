@@ -2,6 +2,7 @@ import os
 from flask import Flask,jsonify,request,render_template
 from source.face_recognition import recognize_faces
 from source.utils import draw_rectangles, read_image, prepare_image
+from source.model_training import create_mlp_model
 
 app = Flask(__name__)
 
