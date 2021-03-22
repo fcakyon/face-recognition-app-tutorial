@@ -6,6 +6,7 @@ from source.model_training import create_mlp_model
 
 app = Flask(__name__)
 
+app.config.from_object('config')
 UPLOAD_FOLDER = os.path.basename('uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -23,7 +24,7 @@ def detect():
     # Recognize faces
     classifier_model_path = "models" + os.sep + "lotr_mlp_10c_recognizer.pickle"
     label_encoder_path = "models" + os.sep + "lotr_mlp_10c_labelencoder.pickle"
-    faces = recognize_faces(image, classifier_model_path, label_encoder_path)
+    faces = recognize_faces(image, classifier_model_path, label_encoder_path, detection_api_url=app.config["DETECTION_API_URL"])
 
     return jsonify(recognitions = faces)
 
@@ -37,7 +38,7 @@ def upload():
     # Recognize faces
     classifier_model_path = "models" + os.sep + "lotr_mlp_10c_recognizer.pickle"
     label_encoder_path = "models" + os.sep + "lotr_mlp_10c_labelencoder.pickle"
-    faces = recognize_faces(image, classifier_model_path, label_encoder_path)
+    faces = recognize_faces(image, classifier_model_path, label_encoder_path, detection_api_url=app.config["DETECTION_API_URL"])
     
     # Draw detection rects
     draw_rectangles(image, faces)
