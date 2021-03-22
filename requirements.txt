@@ -6,5 +6,5 @@ imutils==0.5.3
 requests==2.22.0
 scipy==1.5.4
 scikit-learn==0.24.1
-tensorflow==2.4.1
+tensorflow-cpu==2.4.1
 scikeras==0.2.1
