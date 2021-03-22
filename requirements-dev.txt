@@ -7,5 +7,5 @@ jupyter==1.0.0
 imutils==0.5.3
 scipy==1.5.4
 scikit-learn==0.20.0
-tensorflow==2.4.0
+tensorflow==2.4.1
 scikeras==0.2.1
