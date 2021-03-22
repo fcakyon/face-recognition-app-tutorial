@@ -1,4 +1,7 @@
 # Flask Face Recognition
+
+<a href="https://github.com/fcakyon/face-recognition-app-tutorial/actions/workflows/ci.yml"><img src="https://github.com/fcakyon/face-recognition-app-tutorial/actions/workflows/ci.yml/badge.svg" alt="CI Tests"></a>
+
 A face recognition API using Python, Flask, Opencv, Pytorch, Heroku.
 
 Live demo: https://face-recognition-api-flask.herokuapp.com

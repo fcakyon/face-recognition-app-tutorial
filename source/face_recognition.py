@@ -3,18 +3,20 @@ import cv2
 import pickle
 import requests
 import numpy as np
-from keras import backend as K
 from imutils import paths
 
-def detect_faces(image):
+def detect_faces(image, detection_api_url="http://127.0.0.1:3000/"):
     # Apply previously implemented deep learning-based face detector to 
     # localize faces in the input image
     image = cv2.imencode('.jpg', image)[1].tostring()
-    
-    # Send request to heroku server
-    #response = requests.post('https://face-detection-api-flask.herokuapp.com/detect', files={'image': image})
-    # Send request to local server
-    response = requests.post('http://127.0.0.1:3000/detect', files={'image': image})
+
+    # Send request to detection_api_url
+    if not detection_api_url[-1]=="/":
+        detection_api_url += "/"
+    try:
+        response = requests.post(detection_api_url+"detect", files={'image': image})
+    except:
+        Exception("You need to run detection app as described in https://github.com/fcakyon/face-recognition-app-tutorial#app-usage")
     
     # Convert response to json object (dictionary)
     response_json = response.json()
@@ -22,7 +24,7 @@ def detect_faces(image):
     detections = response_json["detections"]
     return detections
 
-def extract_faces(raw_image_dir = ""):
+def extract_faces(raw_image_dir = "", detection_api_url="http://127.0.0.1:3000/"):
     # Extract faces from the images in images/base folder
     min_confidence = 30
     
@@ -49,7 +51,7 @@ def extract_faces(raw_image_dir = ""):
         #image = resize(image, width=600)
     
         print("[INFO] performing face detection over api for: " + image_path.split("\\")[-1])
-        detections = detect_faces(resized_image)
+        detections = detect_faces(resized_image, detection_api_url)
         #detections = detect_faces(image)
         
         # Ensure at least one face was found
@@ -84,7 +86,7 @@ def extract_faces(raw_image_dir = ""):
                     cv2.imwrite(face_path, face)
                     index = index + 1
     
-def recognize_faces(image, classifier_model_path, label_encoder_path):
+def recognize_faces(image, classifier_model_path, label_encoder_path, detection_api_url="http://127.0.0.1:3000/"):
     '''Recognize faces in an image'''
     faces_list = []
     min_detection_confidence = 20 # percent
@@ -100,7 +102,7 @@ def recognize_faces(image, classifier_model_path, label_encoder_path):
     label_encoder = pickle.loads(open(label_encoder_path, "rb").read())
     
     print("[INFO] performing face detection over api...")
-    detections = detect_faces(image)
+    detections = detect_faces(image, detection_api_url)
     
     print("[INFO] performing face recognition...")
     # Loop over the detections
@@ -130,10 +132,13 @@ def recognize_faces(image, classifier_model_path, label_encoder_path):
             vec = embedder.forward()
     
             # Perform classification to recognize the face
-            preds = recognizer.predict_proba(vec)[0]
+            preds = recognizer.predict_proba(vec)
             j = np.argmax(preds)
             # Get recognition confidence
-            recognition_confidence = preds[j]
+            try:
+                recognition_confidence = preds[j]
+            except:
+                recognition_confidence = preds[0][j]
             # Convert it to a native python variable (float)
             recognition_confidence = recognition_confidence.item()
             # Get recognition class name
